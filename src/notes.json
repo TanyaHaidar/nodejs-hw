@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Buy groceries",
+    "content": "Milk, Bread, Eggs, Fruits",
+    "tag": "Shopping"
+  },
+  {
+    "title": "Finish Node.js homework",
+    "content": "Add Mongo support & middleware",
+    "tag": "Work"
+  },
+  {
+    "title": "Plan summer trip",
+    "content": "Think about Greece or Spain",
+    "tag": "Travel"
+  },
+  {
+    "title": "Doctor appointment",
+    "content": "Monday at 10:00",
+    "tag": "Health"
+  }
+]
