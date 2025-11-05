@@ -1,7 +1,17 @@
-export const errorHandler = (err, req, res, next) => {
-  const status = err.status || 500;
+import createHttpError from "http-errors";
 
-  res.status(status).json({
-    message: err.message || "Server error",
+export const errorHandler = (err, req, res, next) => {
+  if (err instanceof createHttpError.HttpError) {
+    return res.status(err.status).json({
+      status: err.status,
+      message: err.message,
+    });
+  }
+
+  console.error("Unexpected error:", err);
+
+  return res.status(500).json({
+    status: 500,
+    message: "Internal Server Error",
   });
 };
