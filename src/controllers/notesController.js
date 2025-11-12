@@ -8,27 +8,28 @@ export const getAllNotes = async (req, res, next) => {
     const pageNumber = Number(page);
     const perPageNumber = Number(perPage);
 
-    const filter = {};
+    let query = Note.find();
 
     if (tag) {
-      filter.tag = tag;
+      query = query.where("tag").equals(tag);
     }
 
     if (search) {
-      filter.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { content: { $regex: search, $options: "i" } },
-      ];
+      query = query.find({ $text: { $search: search } });
     }
 
-    const totalNotes = await Note.countDocuments(filter);
+    const [notes, totalNotes] = await Promise.all([
+      query
+        .sort({ createdAt: -1 })
+        .skip((pageNumber - 1) * perPageNumber)
+        .limit(perPageNumber)
+        .exec(),
+      Note.countDocuments(
+        search ? { $text: { $search: search }, ...(tag ? { tag } : {}) } : tag ? { tag } : {}
+      ),
+    ]);
 
     const totalPages = Math.ceil(totalNotes / perPageNumber);
-
-    const notes = await Note.find(filter)
-      .skip((pageNumber - 1) * perPageNumber)
-      .limit(perPageNumber)
-      .sort({ createdAt: -1 });
 
     res.status(200).json({
       page: pageNumber,
@@ -60,7 +61,6 @@ export const getNoteById = async (req, res, next) => {
 export const createNote = async (req, res, next) => {
   try {
     const { title, content, tag } = req.body;
-
     const newNote = await Note.create({ title, content, tag });
 
     res.status(201).json(newNote);
@@ -84,6 +84,7 @@ export const deleteNote = async (req, res, next) => {
     next(error);
   }
 };
+
 
 export const updateNote = async (req, res, next) => {
   try {

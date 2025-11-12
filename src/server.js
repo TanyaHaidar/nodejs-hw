@@ -19,12 +19,11 @@ app.use(logger);
 app.use(express.json());
 app.use(cors());
 
-app.use("/notes", notesRouter);
+app.use(notesRouter);
 
 app.use(errors());
 
 app.use(notFoundHandler);
-
 app.use(errorHandler);
 
 const start = async () => {
