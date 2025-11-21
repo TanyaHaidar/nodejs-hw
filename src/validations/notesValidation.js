@@ -4,7 +4,7 @@ import { TAGS } from "../constants/tags.js";
 
 const isValidObjectId = (value, helpers) => {
   if (!mongoose.Types.ObjectId.isValid(value)) {
-    return helpers.error("any.invalid");
+    return helpers.message("Invalid ObjectId format");
   }
   return value;
 };
@@ -20,7 +20,9 @@ export const getAllNotesSchema = celebrate({
 
 export const noteIdSchema = celebrate({
   [Segments.PARAMS]: Joi.object({
-    noteId: Joi.string().custom(isValidObjectId, "ObjectId validation").required(),
+    noteId: Joi.string()
+      .custom(isValidObjectId, "ObjectId validation")
+      .required(),
   }),
 });
 
@@ -34,7 +36,9 @@ export const createNoteSchema = celebrate({
 
 export const updateNoteSchema = celebrate({
   [Segments.PARAMS]: Joi.object({
-    noteId: Joi.string().custom(isValidObjectId, "ObjectId validation").required(),
+    noteId: Joi.string()
+      .custom(isValidObjectId, "ObjectId validation")
+      .required(),
   }),
   [Segments.BODY]: Joi.object({
     title: Joi.string().min(1).optional(),
@@ -43,6 +47,7 @@ export const updateNoteSchema = celebrate({
   })
     .or("title", "content", "tag")
     .messages({
-      "object.missing": "At least one of 'title', 'content', or 'tag' must be provided",
+      "object.missing":
+        "At least one of 'title', 'content', or 'tag' must be provided",
     }),
 });
