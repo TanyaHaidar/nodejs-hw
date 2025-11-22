@@ -15,7 +15,8 @@ import authRouter from "./routes/authRoutes.js";
 import notesRouter from "./routes/notesRoutes.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 3030;
 
 app.use(logger);
 app.use(express.json());
@@ -31,9 +32,9 @@ app.use(
 app.use(authRouter);
 app.use(notesRouter);
 
-app.use(errors());
-
 app.use(notFoundHandler);
+
+app.use(errors());
 
 app.use(errorHandler);
 
