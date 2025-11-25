@@ -18,9 +18,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 8,
     },
-    avatarURL: {
+    avatar: {
       type: String,
-      default: null,
+      default: "https://ac.goit.global/fullstack/react/default-avatar.jpg",
     },
   },
   {

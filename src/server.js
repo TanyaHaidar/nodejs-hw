@@ -16,7 +16,6 @@ import notesRouter from "./routes/notesRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 
 const app = express();
-
 const PORT = process.env.PORT || 3030;
 
 app.use(logger);
@@ -30,9 +29,9 @@ app.use(
   })
 );
 
-app.use(authRouter);
-app.use(notesRouter);
-app.use(userRouter);
+app.use("/auth", authRouter);
+app.use("/notes", notesRouter);
+app.use("/users", userRouter);
 
 app.use(notFoundHandler);
 
